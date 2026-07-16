@@ -1,7 +1,7 @@
 // --- 3D Interactive Shampoo Bottle Experience ---
 
 // Global Variables for Three.js
-let scene, camera, renderer, bottleGroup;
+let scene, camera, renderer, bottleGroup, floorShadow;
 let bottleBodyMesh, labelMesh;
 let isDragging = false;
 let previousMousePosition = { x: 0, y: 0 };
@@ -59,6 +59,7 @@ function initThree() {
 
   // 5. Build Procedural Bottle
   buildBottle();
+  createFloorShadow();
 
   // 6. Setup Lighting
   setupLighting();
@@ -384,6 +385,14 @@ function onWindowResize() {
 function initColorCustomizer() {
   const dots = document.querySelectorAll('.color-dot');
   
+  const blobColors = {
+    '#7053E7': ['rgba(222, 210, 255, 0.5)', 'rgba(253, 218, 255, 0.45)', 'rgba(254, 253, 210, 0.35)'],
+    '#E94F37': ['rgba(255, 210, 210, 0.5)', 'rgba(255, 230, 210, 0.45)', 'rgba(255, 254, 220, 0.35)'],
+    '#0EAD69': ['rgba(210, 255, 225, 0.5)', 'rgba(215, 255, 250, 0.45)', 'rgba(254, 253, 210, 0.35)'],
+    '#F25F5C': ['rgba(255, 215, 225, 0.5)', 'rgba(255, 235, 210, 0.45)', 'rgba(240, 210, 255, 0.35)'],
+    '#247BA0': ['rgba(210, 235, 255, 0.5)', 'rgba(210, 255, 250, 0.45)', 'rgba(230, 215, 255, 0.35)']
+  };
+
   dots.forEach(dot => {
     dot.addEventListener('click', (e) => {
       // Remove active from all dots
@@ -399,8 +408,48 @@ function initColorCustomizer() {
       
       // Smooth color change animation using tween-like linear interpolation in the loop
       animateColorChange(bottleBodyMesh.material.color, targetColor);
+
+      // Upgrade color theme of HTML document
+      document.documentElement.style.setProperty('--color-brand-primary', colorHex);
+      
+      // Fade the background blob colors dynamically to match
+      const blobs = blobColors[colorHex];
+      if (blobs) {
+        document.documentElement.style.setProperty('--color-blob-1', blobs[0]);
+        document.documentElement.style.setProperty('--color-blob-2', blobs[1]);
+        document.documentElement.style.setProperty('--color-blob-3', blobs[2]);
+      }
     });
   });
+}
+
+// Create dynamic soft reflection floor shadow
+function createFloorShadow() {
+  const shadowCanvas = document.createElement('canvas');
+  shadowCanvas.width = 128;
+  shadowCanvas.height = 128;
+  const shadowCtx = shadowCanvas.getContext('2d');
+  
+  // Radial gradient: dark center, fading to transparent edges
+  const gradient = shadowCtx.createRadialGradient(64, 64, 0, 64, 64, 64);
+  gradient.addColorStop(0, 'rgba(0, 0, 0, 0.22)');
+  gradient.addColorStop(0.5, 'rgba(0, 0, 0, 0.08)');
+  gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+  shadowCtx.fillStyle = gradient;
+  shadowCtx.fillRect(0, 0, 128, 128);
+
+  const shadowTexture = new THREE.CanvasTexture(shadowCanvas);
+  const shadowGeo = new THREE.PlaneGeometry(1.4, 1.4);
+  const shadowMat = new THREE.MeshBasicMaterial({
+    map: shadowTexture,
+    transparent: true,
+    depthWrite: false
+  });
+
+  floorShadow = new THREE.Mesh(shadowGeo, shadowMat);
+  floorShadow.position.set(0, -0.92, 0); // Flat on the floor directly under the bottle
+  floorShadow.rotation.x = -Math.PI / 2;
+  scene.add(floorShadow);
 }
 
 // Linear color interpolator utility
@@ -470,7 +519,14 @@ function animate() {
     
     // Add subtle idle breathing floating animation
     const time = Date.now() * 0.0015;
-    bottleGroup.position.y = -0.1 + Math.sin(time) * 0.04;
+    const breathe = Math.sin(time) * 0.04;
+    bottleGroup.position.y = -0.1 + breathe;
+
+    // Animate floor shadow scale and transparency based on breathing height
+    if (floorShadow) {
+      floorShadow.scale.setScalar(1 - breathe * 1.2);
+      floorShadow.material.opacity = 0.8 - (breathe * 2.0);
+    }
   }
 
   renderer.render(scene, camera);
