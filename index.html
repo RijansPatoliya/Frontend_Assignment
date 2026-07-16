@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bolly — Knock Out Flakes | Premium Clarify Shampoo</title>
+  <meta name="description" content="Experience the interactive 3D product showcase of bolly Clarify Shampoo. Recreate your hair routine and knock out flakes from root to shine.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Grainy Noise Overlay -->
+  <div class="noise-overlay"></div>
+  <svg class="noise-svg" xmlns="http://www.w3.org/2000/svg">
+    <filter id="noiseFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="4" stitchTiles="stitch" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.07 0" />
+    </filter>
+  </svg>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="main-header">
+      <div class="logo">bolly</div>
+      
+      <!-- Center Floating Navigation -->
+      <nav class="nav-pill-container">
+        <ul class="nav-pill">
+          <li class="nav-item active"><a href="#shop">Shop <span class="plus">+</span></a></li>
+          <li class="nav-item"><a href="#about">About</a></li>
+          <li class="nav-item"><a href="#blog">Blog</a></li>
+          <li class="nav-item"><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Cart Button -->
+      <div class="cart-container">
+        <button class="cart-button" aria-label="View Shopping Cart">
+          <span class="cart-text">Cart</span>
+          <div class="cart-badge">
+            <svg class="cart-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+          </div>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="hero-section">
+      
+      <!-- Left Column: Heading and Badge -->
+      <div class="hero-left">
+        <div class="badge-row">
+          <span class="badge-capsule badge-white">FROM ROOT</span>
+          <span class="badge-capsule badge-purple">TO SHINE</span>
+        </div>
+        <h1 class="main-heading">
+          <span>KNOCK</span>
+          <span>OUT</span>
+          <span>FLAKES</span>
+        </h1>
+      </div>
+
+      <!-- Center Column: 3D Canvas Area -->
+      <div class="hero-center" id="canvas-container">
+        <!-- Interactive 3D Canvas will be injected here -->
+        <div class="canvas-loader" id="canvas-loader">
+          <div class="loader-spinner"></div>
+          <span>Loading 3D Experience...</span>
+        </div>
+        
+        <!-- Interactive Guide Hint -->
+        <div class="drag-hint">
+          <svg class="drag-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 0 1 9-9"></path>
+          </svg>
+          <span>Drag to rotate</span>
+        </div>
+      </div>
+
+      <!-- Right Column: Editorial Text & Call to Action -->
+      <div class="hero-right">
+        <div class="editorial-container">
+          <p class="editorial-text-sans">Journey in to the</p>
+          <p class="editorial-text-serif">wonderful world of shampoo</p>
+        </div>
+        
+        <div class="cta-container">
+          <a href="#explore" class="cta-button">
+            <span class="cta-label">EXPLORE MORE</span>
+            <div class="cta-arrow-circle">
+              <svg class="cta-arrow-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Interactive Customizer -->
+    <footer class="customizer-panel">
+      <div class="customizer-title">Customize Bottle Color:</div>
+      <div class="color-options">
+        <button class="color-dot active" data-color="#7053E7" style="background-color: #7053E7;" aria-label="Original Purple"></button>
+        <button class="color-dot" data-color="#E94F37" style="background-color: #E94F37;" aria-label="Sunset Coral"></button>
+        <button class="color-dot" data-color="#0EAD69" style="background-color: #0EAD69;" aria-label="Emerald Green"></button>
+        <button class="color-dot" data-color="#F25F5C" style="background-color: #F25F5C;" aria-label="Bubblegum Pink"></button>
+        <button class="color-dot" data-color="#247BA0" style="background-color: #247BA0;" aria-label="Ocean Blue"></button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Three.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Application JS -->
+  <script src="app.js"></script>
+</body>
+</html>
