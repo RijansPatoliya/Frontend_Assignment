@@ -21,11 +21,21 @@ const colorMapping = {
 };
 
 // Initialize Application
-window.addEventListener('DOMContentLoaded', () => {
+function startApp() {
+  if (typeof THREE === 'undefined') {
+    setTimeout(startApp, 100);
+    return;
+  }
   initThree();
   initColorCustomizer();
   initDragHint();
-});
+}
+
+if (document.readyState === 'loading') {
+  window.addEventListener('DOMContentLoaded', startApp);
+} else {
+  startApp();
+}
 
 // Setup Three.js Scene
 function initThree() {

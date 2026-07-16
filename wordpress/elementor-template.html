@@ -797,11 +797,21 @@
       '#247BA0': 0x247BA0
     };
 
-    window.addEventListener('DOMContentLoaded', () => {
+    function startApp() {
+      if (typeof THREE === 'undefined') {
+        setTimeout(startApp, 100);
+        return;
+      }
       initThree();
       initColorCustomizer();
       initDragHint();
-    });
+    }
+
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', startApp);
+    } else {
+      startApp();
+    }
 
     function initThree() {
       const container = document.getElementById('canvas-container');
